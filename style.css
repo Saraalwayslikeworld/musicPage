@@ -1,0 +1,206 @@
+/* css reset */
+* {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    /* color: #fff; */
+}
+ul,li {
+    list-style: none;
+}
+section,body,html {
+    height: 100%;
+    overflow: hidden;
+}
+a {
+    text-decoration: none;
+}
+.clearfix::after {
+    content: '';
+    display: block;
+    clear: both;  
+}
+/* 宽度使用媒体查询定不同宽度*/
+.layout {
+    width: 600px;
+    margin: 0 auto;
+}
+@media screen and (min-width:900px){
+    .layout {
+        width: 800px;
+    }
+}
+@media screen and (min-width:1000px)
+{
+    .layout {
+        width: 900px;
+    }
+}
+@media screen and (min-width:1200px){
+    .layout {
+        width: 1000px;
+    }
+}
+
+/* 屏幕高度随窗口变化使用vh*/
+.bg {
+    position: absolute;
+    z-index: -1;
+    left: -10px;
+    top: -10px;
+    bottom: -10px;
+    right: -10px;
+    background: url(test.jpg) no-repeat;
+    background-size: cover;
+    filter: blur(5px);
+}
+.page-cover {
+    display: none;
+}
+.page-panel main {
+    background: rgba(0,0,0,0.2);
+    height: calc(100% - 25vh);
+}
+.page-panel footer {
+    position: relative;
+    background: rgba(255,255,255,0.1);
+    height: 25vh;
+}
+
+.page-panel main .layout {
+    padding-top: 10vh;
+}
+
+.page-panel main .aside {
+    float: left;
+}
+.page-panel main .msg {
+    padding-left: 55vh;
+}
+/*************************************/
+.page-panel main .aside figure {
+    width: 45vh;
+    height: 45vh;
+    background: url(test.jpg) no-repeat;
+    background-size: cover;
+}
+.page-panel main .aside .control {
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+}
+.page-panel main .aside .control .iconfont{
+    flex: 1;
+    text-align: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 4vh;
+    transition: color .5s;
+    cursor: pointer;
+}
+.page-panel main .aside .control>i:hover {
+    color: rgba(255,255,255,0.8)
+}
+/*************************************/
+.page-panel main .msg .tag {
+    background: rgb(230, 116, 81);
+    padding: .5vh 2vh;
+    font-size: 2vh;
+}
+.page-panel main .msg .title {
+    margin-top: 4vh;
+    font-size: 6vh;
+}
+.page-panel main .msg .detil {
+    display: flex;
+    font-size: 3vh;
+    margin-top: 10vh;
+}
+.page-panel main .msg .detil>span {
+    flex: 1;
+}
+.page-panel main .msg .detil .iconfont {
+    padding-right: 2vh;
+}
+
+
+.page-panel main .msg .timebar {
+    margin-top: 10vh;
+    display: flex;
+    align-items: center;
+}
+.page-panel main .msg .timebar .time{
+    font-size: 2vh;
+    width: 3vh;
+    margin-left: 1vh;
+}
+.page-panel main .msg .timebar .bar {
+    position: relative;
+    flex: 1;
+    height: .8vh;  
+    border-radius: 2px;  
+    background: rgba(255,255,255,0.4);
+}
+.page-panel main .msg .timebar .bar .prograss {
+    position: absolute;
+    top: 0;
+    width: 0%;
+    height: .8vh;    
+    background: rgba(255,255,255,0.8);
+}
+.page-panel main .msg .author {
+    margin-top: 4vh;
+    font-size: 2vh;
+}
+.page-panel main .msg .lyric {
+    margin-top: 4vh;
+    font-size: 2vh;
+}
+/************************/
+.page-panel footer .layout {
+    height: 100%;
+    position: relative;
+}
+.page-panel footer .theme {
+    width: 20vh;
+    height: 20vh;
+    float: left;
+    margin: 2vh;
+}
+.page-panel footer .theme.active {
+    box-shadow: 0px 0px 30px 0px rgba(252,252,252,1);
+}
+.page-panel footer .theme figure {
+    width: 100%;
+    height: calc(100% - 4vh);
+    background: url(test.jpg) no-repeat;
+    background-size: cover;
+}
+.page-panel footer .theme h4 {
+    text-align: center;
+    height: 4vh;
+    margin-top: 1vh;
+    font-size: 2vh;
+}
+.page-panel footer .iconfont.icon-left{
+    position: absolute;
+    left: -8vh;
+    top: 10vh;
+    font-size: 5vh;
+    opacity: 0;
+    cursor: pointer;
+    transition: all .5s;
+}
+.page-panel footer .iconfont.icon-right{
+    position: absolute;
+    right: -8vh;
+    top: 10vh;
+    font-size: 5vh;
+    opacity: 0;
+    cursor: pointer;
+    transition: all .5s;
+}
+.page-panel footer .iconfont:hover {
+    opacity: 0.8;
+}
+
+
