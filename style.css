@@ -153,11 +153,18 @@ a {
 }
 .page-panel main .msg .lyric {
     margin-top: 4vh;
-    font-size: 2vh;
+    font-size: 3vh;
 }
 /************************/
 .page-panel footer .layout {
     height: 100%;
+    position: relative;
+   
+}
+.page-panel footer .container {
+    overflow: hidden;
+}
+.page-panel footer ul {
     position: relative;
 }
 .page-panel footer .theme {
@@ -166,13 +173,15 @@ a {
     float: left;
     margin: 2vh;
 }
+.page-panel footer .theme:hover {
+    box-shadow: 0 0 1.5vh .5vh rgba(252,252,252,0.8);
+}
 .page-panel footer .theme.active {
-    box-shadow: 0px 0px 30px 0px rgba(252,252,252,1);
+    box-shadow: 0 0 1.5vh .5vh rgba(252,252,252,0.8);
 }
 .page-panel footer .theme figure {
     width: 100%;
     height: calc(100% - 4vh);
-    background: url(test.jpg) no-repeat;
     background-size: cover;
 }
 .page-panel footer .theme h4 {
@@ -181,26 +190,31 @@ a {
     margin-top: 1vh;
     font-size: 2vh;
 }
-.page-panel footer .iconfont.icon-left{
+.page-panel footer .icon-left{
     position: absolute;
     left: -8vh;
-    top: 10vh;
-    font-size: 5vh;
+    top: 8vh;
+    font-size: 8vh;
+    color: rgba(255,255,255,0.4);
     opacity: 0;
     cursor: pointer;
     transition: all .5s;
 }
-.page-panel footer .iconfont.icon-right{
+.page-panel footer .icon-right{
     position: absolute;
     right: -8vh;
     top: 10vh;
-    font-size: 5vh;
+    font-size: 8vh;
+    color: rgba(255,255,255,0.4);
     opacity: 0;
     cursor: pointer;
     transition: all .5s;
 }
+.page-panel footer:hover .iconfont {
+    opacity: 1;
+}
 .page-panel footer .iconfont:hover {
-    opacity: 0.8;
+    color: rgba(255,255,255,0.8);
 }
 
 
