@@ -102,10 +102,13 @@ var panel = {
         this.$panel = $('.page-panel')
         this.audio = new Audio()
         this.audio.autoplay = true
+        this.clock = null
+        this.lyricObj = {}
         this.bind()
     },
     bind: function(){
         var _this = this
+        var clock
         EventCenter.on('select-sort',function(e,channel){
            _this.channelTd = channel.channelId
            _this.channelName = channel.channelName
@@ -123,23 +126,14 @@ var panel = {
         this.$panel.find('.btn-next').on('click',function(){
             _this.getData()
         })
-        var clock
         this.audio.onplay = function(){
-            clock = setInterval(function(){
-                var sec = parseInt(_this.audio.currentTime%60)+' '
-                var min = parseInt(_this.audio.currentTime/60)+' '
-                sec = (sec.length==2)?('0'+sec):sec
-                $('.timebar .time').text(min +':'+ sec) 
-                $('.prograss').css({
-                    'width':(_this.audio.currentTime/_this.audio.duration)*100 + '%'
-                }) 
-            },1000)
+            _this.update()
         }
         this.audio.onpause = function(){
-          clearInterval(clock)
+            clearInterval(_this.clock)
         }
         this.audio.onended = function(){
-         _this.getData()  
+            _this.getData()  
         } 
     },
     getData: function(){
@@ -147,7 +141,7 @@ var panel = {
         $.getJSON('//jirenguapi.applinzi.com/fm/getSong.php',{channel:this.channelId})
          .done(function(ret){
              console.log('loadmusic...',ret.song[0])
-             _this.render(ret.song[0])
+             _this.render(ret.song[0])      
          }).fail(function(){
              console.log('error...')
          })
@@ -160,8 +154,46 @@ var panel = {
         this.$panel.find('.msg .author').text(song.artist)
         this.$panel.find('.msg .tag').text(this.channelName)
         $('.bg').css('background-image','url('+song.picture+')')
-        this.audio.src = song.url
+        this.audio.src = song.url  
+        this.loadLyric(song) 
+    },
+    update: function(){
+        var _this = this
+        this.clock = setInterval(function(){
+            var sec = parseInt(_this.audio.currentTime%60)+''
+            var min = parseInt(_this.audio.currentTime/60)+''
+            sec = (sec.length<2)?('0'+sec):sec
+            $('.timebar .time').text(min +':'+ sec) 
+            $('.prograss').css({
+                'width':(_this.audio.currentTime/_this.audio.duration)*100 + '%'
+            })
+            var line = _this.lyricObj['0'+ min +':'+ sec]
+            if(line){
+                _this.$panel.find('.lyric').text(line)
+            }
+        },1000)
+    },
+    loadLyric: function(song){
+        var _this = this   
+        $.getJSON('//jirenguapi.applinzi.com/fm/getLyric.php',{sid:song.sid})
+         .done(function(ret){ 
+                var lyricObj = {}         
+                ret.lyric.split(/\n/).forEach(function(line){
+                var times = line.match(/\d{2}:\d{2}/g)
+                var str = line.replace(/\[.+?\]/g,'') 
+                if(Array.isArray(times)){
+                    times.forEach(function(time){
+                       lyricObj[time] = str
+                    })
+                }
+                _this.lyricObj = lyricObj
+            })
+           
+        }).fail(function(){
+            console.log('loadlyric error...')
+        })
     }
+
 
 }
 footer.init()
