@@ -108,7 +108,7 @@ a {
 }
 .page-panel main .msg .title {
     margin-top: 4vh;
-    font-size: 6vh;
+    font-size: 5vh;
 }
 .page-panel main .msg .detil {
     display: flex;
@@ -129,8 +129,8 @@ a {
     align-items: center;
 }
 .page-panel main .msg .timebar .time{
-    font-size: 2vh;
-    width: 3vh;
+    font-size: 1.5vh;
+    width: 4vh;
     margin-left: 1vh;
 }
 .page-panel main .msg .timebar .bar {
@@ -146,6 +146,7 @@ a {
     width: 0%;
     height: .8vh;    
     background: rgba(255,255,255,0.8);
+    transition: width .8s;
 }
 .page-panel main .msg .author {
     margin-top: 4vh;

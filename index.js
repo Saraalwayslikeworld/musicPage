@@ -1,3 +1,12 @@
+//通过自定义事件实现footer与panel的解耦
+var EventCenter = {
+    on: function(type,handler){
+        $(document).on(type,handler)
+    },
+    fire: function(type,data){
+        $(document).trigger(type,data)
+    }
+}
 // footer功能实现
 var footer = {
     init: function(){
@@ -48,7 +57,10 @@ var footer = {
         this.$ul.on('click','li',function(){
             $(this).addClass('active')
                    .siblings().removeClass('active')
-            
+            EventCenter.fire('select-sort',{
+                channelId:$(this).attr('data-sort'),
+                channelName:$(this).attr('data-name')
+            })
         })
     },
     setData: function(){
@@ -64,7 +76,7 @@ var footer = {
     render: function(musicSorts){
         var html = ''
         musicSorts.forEach(function(sort){
-            html +='<li class="theme" data-sort='+sort.channel_id+'>'+
+            html +='<li class="theme" data-sort='+sort.channel_id+' data-name='+sort.name+'>'+
                         '<figure style="background-image:url('+sort.cover_small+')"></figure>'+
                         '<h4>'+sort.name+'</h4>'+
                    '</li>'
@@ -81,18 +93,74 @@ var footer = {
         })
     }
 }
+
+// panel 功能实现
 var panel = {
     init: function(){
+        this.channelId = 'public_tuijian_spring'
+        this.channelName ='漫步春天'
+        this.$panel = $('.page-panel')
+        this.audio = new Audio()
+        this.audio.autoplay = true
         this.bind()
     },
     bind: function(){
-
+        var _this = this
+        EventCenter.on('select-sort',function(e,channel){
+           _this.channelTd = channel.channelId
+           _this.channelName = channel.channelName
+           _this.getData()
+        })
+        this.$panel.find('.btn-play').on('click',function(){
+            if($(this).hasClass('icon-pause')){
+                $(this).removeClass('icon-pause').addClass('icon-play')
+                _this.audio.pause()
+            }else{
+                $(this).removeClass('icon-play').addClass('icon-pause')
+                _this.audio.play()
+            }
+        })
+        this.$panel.find('.btn-next').on('click',function(){
+            _this.getData()
+        })
+        var clock
+        this.audio.onplay = function(){
+            clock = setInterval(function(){
+                var sec = parseInt(_this.audio.currentTime%60)+' '
+                var min = parseInt(_this.audio.currentTime/60)+' '
+                sec = (sec.length==2)?('0'+sec):sec
+                $('.timebar .time').text(min +':'+ sec) 
+                $('.prograss').css({
+                    'width':(_this.audio.currentTime/_this.audio.duration)*100 + '%'
+                }) 
+            },1000)
+        }
+        this.audio.onpause = function(){
+          clearInterval(clock)
+        }
+        this.audio.onended = function(){
+         _this.getData()  
+        } 
     },
     getData: function(){
-
+        var _this = this
+        $.getJSON('//jirenguapi.applinzi.com/fm/getSong.php',{channel:this.channelId})
+         .done(function(ret){
+             console.log('loadmusic...',ret.song[0])
+             _this.render(ret.song[0])
+         }).fail(function(){
+             console.log('error...')
+         })
+         
     },
-    render: function(){
-
+    render: function(song){ 
+        this.$panel.find('.aside .control .btn-play').addClass('icon-pause').removeClass('icon-play')   
+        this.$panel.find('.aside figure').css('background-image','url('+song.picture+')')
+        this.$panel.find('.msg .title').text(song.title)
+        this.$panel.find('.msg .author').text(song.artist)
+        this.$panel.find('.msg .tag').text(this.channelName)
+        $('.bg').css('background-image','url('+song.picture+')')
+        this.audio.src = song.url
     }
 
 }
