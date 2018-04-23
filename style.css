@@ -137,14 +137,15 @@ a {
     position: relative;
     flex: 1;
     height: .8vh;  
-    border-radius: 2px;  
+    border-radius: .5vh;  
     background: rgba(255,255,255,0.4);
 }
 .page-panel main .msg .timebar .bar .prograss {
     position: absolute;
     top: 0;
     width: 0%;
-    height: .8vh;    
+    height: .8vh;  
+    border-radius: .5vh;    
     background: rgba(255,255,255,0.8);
     transition: width .8s;
 }
@@ -155,6 +156,7 @@ a {
 .page-panel main .msg .lyric {
     margin-top: 4vh;
     font-size: 3vh;
+    /* transition: all .8s; */
 }
 /************************/
 .page-panel footer .layout {

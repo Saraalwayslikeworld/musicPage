@@ -104,6 +104,7 @@ var panel = {
         this.audio.autoplay = true
         this.clock = null
         this.lyricObj = {}
+        this.getData()
         this.bind()
     },
     bind: function(){
@@ -169,7 +170,7 @@ var panel = {
             })
             var line = _this.lyricObj['0'+ min +':'+ sec]
             if(line){
-                _this.$panel.find('.lyric').text(line)
+                _this.$panel.find('.lyric').text(line).boomText('fadeInLeft')
             }
         },1000)
     },
@@ -195,6 +196,25 @@ var panel = {
     }
 
 
+}
+$.fn.boomText = function(type){
+    type = type||'rollIn'
+    this.html(function(){
+        var arr = $(this).text().split('').map(function(word){
+            return '<span style="display:inline-block;opacity:0">'+word+'</span>' 
+        })
+        return arr.join('')
+    })
+    var index=0
+    var arr = this.find('span')
+    var clock = setInterval(function(){
+        arr.eq(index).addClass('animated '+type)
+        index++
+        if(index>=arr.length){
+            clearInterval(clock)
+        }  
+    },200)
+   
 }
 footer.init()
 panel.init()
