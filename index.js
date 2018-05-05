@@ -124,6 +124,12 @@ var panel = {
                 _this.audio.play()
             }
         })
+        document.querySelector('.page-panel .timebar .bar').onclick=function(e){
+            console.log(e.offsetX)
+            var line = parseInt(getComputedStyle(document.querySelector('.timebar .bar')).width)       
+            $('.timeBar .bar .prograss').css("width",(e.offsetX/line)*100+'%') 
+            _this.audio.currentTime =  _this.audio.duration*(e.offsetX/line)
+        }
         this.$panel.find('.btn-next').on('click',function(){
             _this.getData()
         })
